@@ -38,7 +38,7 @@
 				</label>
 			</div>
 
-			<div class="hour col-md-3">
+			<div class="time col-md-3">
 				<h4>Time</h4>
 				<input type="range" name="time" min="0" max="24" step="1" value="12">
 			</div>
@@ -129,6 +129,7 @@
 								});
 
 			redraw();
+			updateTimeLabel();
 		}
 
 		d3.selectAll('input[name="day"]').on("change", function() {
@@ -136,10 +137,12 @@
 		});
 
 		d3.select('input[name="time"]').on("change", function() {
+			updateTimeLabel();
 			redraw();
 		});
 
 		d3.select('input[name="time"]').on("input", function() {
+			updateTimeLabel();
 			redraw();
 		});
 
@@ -147,22 +150,25 @@
 			redraw();
 		});
 
+		function updateTimeLabel() {
+			var time = d3.select('input[type="range"]').node().value.toString();
+			d3.select('.time h4').text("Time: " + time + ":00");
+		}
+
 		function redraw() {
 			var day = d3.select('input[name="day"]:checked').node().value;
 			var time = d3.select('input[type="range"]').node().value.toString();
 			var direction = d3.select('input[name="direction"]:checked').node().value;
 
-			console.log(day);
-			console.log(time);
-			console.log(direction);
+			if (time.length == 1) {time = "0" + time;}
 
 			circles.attr({
 				fill: function(d) {
-					var size = (d.data[day][time] == undefined ? 1 : d.data[day][time][direction]);
+					var size = (d.data[day][time] == undefined ? 0 : d.data[day][time][direction]);
 					return shadeColor("#ff0000", ((-1 * size)));
 				},
 				r: function(d) {
-					var size = (d.data[day][time] == undefined ? 1 : d.data[day][time][direction]);
+					var size = (d.data[day][time] == undefined ? 0 : d.data[day][time][direction]);
 					
 					if (size > 0 && size < 2) {
 						return size + 2;
