@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en-gb">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>Tube Usage</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="assets/less/styles.css">
+</head>
+<body>
+	<form id="settings">
+		<div class="row">
+			<div class="day col-md-6">
+				<h4>Day</h4>
+				<label class="radio-inline">
+					<input type="radio" name="day" id="day-monday" value="Mon" checked> Monday
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="day" id="day-tuesday" value="Tue"> Tuesday
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="day" id="day-wednesday" value="Wed"> Wednesday
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="day" id="day-thursday" value="Thu"> Thursday
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="day" id="day-friday" value="Fri"> Friday
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="day" id="day-saturday" value="Sat"> Saturday
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="day" id="day-sunday" value="Sun"> Sunday
+				</label>
+			</div>
+
+			<div class="hour col-md-3">
+				<h4>Time</h4>
+				<input type="range" name="time" min="0" max="24" step="1" value="12">
+			</div>
+
+			<div class="direction col-md-3">
+				<h4>Direction</h4>
+				<label class="radio-inline">
+					<input type="radio" name="direction" id="direction-in" value="in"> Going in
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="direction" id="direction-out" value="out"> Going out
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="direction" id="direction-all" value="all" checked> All usage
+				</label>
+			</div>
+		</div>
+	</form>
+
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script type="text/javascript">
+
+		// Converts from degrees to radians.
+		Math.radians = function(degrees) {
+			return degrees * Math.PI / 180;
+		};
+		 
+		// Converts from radians to degrees.
+		Math.degrees = function(radians) {
+			return radians * 180 / Math.PI;
+		};
+
+		var earthRadius = 6367; //radius in km
+		function convertSphericalToCartesian(latitude, longitude) {
+			var lat = Math.radians(latitude);
+			var lon = Math.radians(longitude);
+			var x = earthRadius * Math.cos(lat) * Math.cos(lon);
+			var y = earthRadius * Math.cos(lat) * Math.sin(lon);
+			return {x: y + 45, y: x - 3940};
+		}
+
+		function shadeColor(color, shade) {
+			var colorInt = parseInt(color.substring(1),16);
+
+			var R = (colorInt & 0xFF0000) >> 16;
+			var G = (colorInt & 0x00FF00) >> 8;
+			var B = (colorInt & 0x0000FF) >> 0;
+
+			R = R + Math.floor((shade/255)*R);
+			G = G + Math.floor((shade/255)*G);
+			B = B + Math.floor((shade/255)*B);
+
+			var newColorInt = (R<<16) + (G<<8) + (B);
+			var newColorStr = "#"+newColorInt.toString(16);
+
+			return newColorStr;
+		}
+
+		var data;
+		var circles;
+
+		d3.json("data.json", function(error, json) {
+			if (error) return console.warn(error);
+			data = json;
+			init();
+		});
+
+		function init() {
+			var canvas = d3.select("body")
+						.append("div").attr({id: "container"})
+						.append("svg");
+
+			canvas.attr({
+				"preserveAspectRatio": "xMinYMin meet",
+				"viewBox": "0 0 500 700"
+			})
+
+			circles = canvas.selectAll("circle")
+							.data(data)
+							.enter()
+								.append("circle")
+								.attr({
+									cx: function(d) {return ((convertSphericalToCartesian(d.coordinates.lat, d.coordinates.lon)).x) * 20;},
+									cy: function(d) {return ((convertSphericalToCartesian(d.coordinates.lat, d.coordinates.lon)).y) * 20;},
+									r: 3,
+									opacity: 0.7,
+									"name": function(d) {return d.name;}
+								});
+
+			redraw();
+		}
+
+		d3.selectAll('input[name="day"]').on("change", function() {
+			redraw();
+		});
+
+		d3.select('input[name="time"]').on("change", function() {
+			redraw();
+		});
+
+		d3.select('input[name="time"]').on("input", function() {
+			redraw();
+		});
+
+		d3.selectAll('input[name="direction"]').on("change", function() {
+			redraw();
+		});
+
+		function redraw() {
+			var day = d3.select('input[name="day"]:checked').node().value;
+			var time = d3.select('input[type="range"]').node().value.toString();
+			var direction = d3.select('input[name="direction"]:checked').node().value;
+
+			console.log(day);
+			console.log(time);
+			console.log(direction);
+
+			circles.attr({
+				fill: function(d) {
+					var size = (d.data[day][time] == undefined ? 1 : d.data[day][time][direction]);
+					return shadeColor("#ff0000", ((-1 * size)));
+				},
+				r: function(d) {
+					var size = (d.data[day][time] == undefined ? 1 : d.data[day][time][direction]);
+					
+					if (size > 0 && size < 2) {
+						return size + 2;
+					} else if (size > 50) {
+						return size/10 + 50;
+					} else {
+						return size;
+					}
+				}
+			});
+		}
+
+	</script>
+
+</body>
+</html>
