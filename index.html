@@ -113,7 +113,7 @@
 
 			canvas.attr({
 				"preserveAspectRatio": "xMidYMid",
-				"viewBox": "0 0 1300 625",
+				"viewBox": "0 0 1300 630",
 			});
 
 			/*
@@ -184,7 +184,7 @@
 			// fix bug in which data for single digit hours is not displayed
 			if (time.length == 1) {time = "0" + time;}
 
-			circles.attr({
+			circles.transition().duration(500).ease('quad').attr({
 				fill: function(d) {
 					return shadeColor("#ff0000", (-1 * getCircleSize(d.data, day, time, direction)));
 				},
