@@ -135,7 +135,8 @@
 									cy: function(d) {return ((convertSphericalToCartesian(d.coordinates.lat, d.coordinates.lon)).y) * 20;},
 									r: 3,
 									opacity: 0.7,
-									"name": function(d) {return d.name;}
+									class: "station-circle",
+									name: function(d) {return d.name;}
 								});
 
 			redraw();
