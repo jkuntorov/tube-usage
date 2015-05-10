@@ -155,20 +155,30 @@
 			d3.select('.time h4').text("Time: " + time + ":00");
 		}
 
+		function getCircleSize(circleData, day, time, direction) {
+			if (circleData[day] == undefined) {
+				return 0;
+			} else if (circleData[day][time] == undefined) {
+				return 0;
+			} else {
+				return circleData[day][time][direction];
+			}
+		}
+
 		function redraw() {
 			var day = d3.select('input[name="day"]:checked').node().value;
 			var time = d3.select('input[type="range"]').node().value.toString();
 			var direction = d3.select('input[name="direction"]:checked').node().value;
 
+			// fix bug in which data for single digit hours is not displayed
 			if (time.length == 1) {time = "0" + time;}
 
 			circles.attr({
 				fill: function(d) {
-					var size = (d.data[day][time] == undefined ? 0 : d.data[day][time][direction]);
-					return shadeColor("#ff0000", ((-1 * size)));
+					return shadeColor("#ff0000", (-1 * getCircleSize(d.data, day, time, direction)));
 				},
 				r: function(d) {
-					var size = (d.data[day][time] == undefined ? 0 : d.data[day][time][direction]);
+					var size = getCircleSize(d.data, day, time, direction);
 					
 					if (size > 0 && size < 2) {
 						return size + 2;
