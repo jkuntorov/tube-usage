@@ -2,6 +2,7 @@ html,
 body {
   margin: 0px;
   padding: 0px;
+  font-family: 'Chivo', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
 }
 #container {
   position: absolute;
@@ -15,6 +16,116 @@ body {
   bottom: 20px;
   left: 20px;
   right: 20px;
+}
+#settings .options-bar {
+  border: 1px solid #cccccc;
+  height: 46px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+#settings .options-bar input {
+  visibility: hidden;
+}
+#settings .options-bar label {
+  border-right: 1px solid #cccccc;
+  padding-left: 0;
+  margin: 0;
+  float: left;
+  height: 45px;
+  text-align: center;
+  font-size: 16px;
+}
+#settings .options-bar label span {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 15px;
+  line-height: 45px;
+  display: inline-block;
+  transition: all 0.15s;
+}
+#settings .options-bar label span:hover {
+  transition: all 0.15s;
+  background: #eeeeee;
+}
+#settings .options-bar label:last-child {
+  border-right: none;
+}
+#settings .options-bar input[type=radio]:checked + span {
+  transition: all 0.15s;
+  background-color: #ee0000;
+  color: white;
+}
+#settings h4 {
+  font-size: 13px;
+  text-transform: uppercase;
+}
+#settings .day .options-bar label {
+  width: 14.285714285714286%;
+}
+#settings .direction .options-bar {
+  width: 99%;
+}
+#settings .direction .options-bar label {
+  width: 33.333333333333336%;
+}
+#settings .direction .options-bar label span div {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin-top: 7.5px;
+  background-repeat: no-repeat;
+  background-size: 90px 60px;
+  text-indent: -9999px;
+  background-image: url('../images/icons.png');
+}
+#settings .direction .options-bar label span.all div {
+  background-position: 0px 0px;
+}
+#settings .direction .options-bar label span.in div {
+  background-position: -30px 0px;
+}
+#settings .direction .options-bar label span.out div {
+  background-position: -60px 0px;
+}
+#settings .direction .options-bar label input[type=radio]:checked + span.all div {
+  background-position: 0px -30px;
+}
+#settings .direction .options-bar label input[type=radio]:checked + span.in div {
+  background-position: -30px -30px;
+}
+#settings .direction .options-bar label input[type=radio]:checked + span.out div {
+  background-position: -60px -30px;
+}
+#settings .range-container {
+  padding-top: 19px;
+}
+#settings .range-container input[type=range] {
+  -webkit-appearance: none;
+}
+#settings .range-container input[type=range]::-webkit-slider-runnable-track {
+  width: 300px;
+  height: 6px;
+  border: 1px solid #cccccc;
+  background: white;
+  border-radius: 3px;
+  transition: all 0.3s;
+}
+#settings .range-container input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #ee0000;
+  border: 1px solid #cc0000;
+  margin-top: -8px;
+}
+#settings .range-container input[type=range]:focus {
+  outline: none;
+}
+#settings .range-container input[type=range]:focus::-webkit-slider-runnable-track {
+  transition: all 0.3s;
+  background: #eeeeee;
 }
 svg {
   width: 100%;

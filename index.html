@@ -7,53 +7,60 @@
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
+	<link href='http://fonts.googleapis.com/css?family=Signika+Negative:300,400,600,700|Signika:400,300,600,700|Hind:400,300,500,600,700|Chivo:400,900italic,900,400italic' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/less/styles.css">
 </head>
 <body>
-	<form id="settings">
+	<form id="settings" class="container	">
 		<div class="row">
-			<div class="day col-md-6">
+			<div class="day col-sm-6">
 				<h4>Day of the week:</h4>
-				<label class="radio-inline">
-					<input type="radio" name="day" id="day-monday" value="Mon" checked> Monday
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="day" id="day-tuesday" value="Tue"> Tuesday
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="day" id="day-wednesday" value="Wed"> Wednesday
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="day" id="day-thursday" value="Thu"> Thursday
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="day" id="day-friday" value="Fri"> Friday
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="day" id="day-saturday" value="Sat"> Saturday
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="day" id="day-sunday" value="Sun"> Sunday
-				</label>
+				<div class="options-bar">
+					<label class="radio-inline">
+						<input type="radio" name="day" id="day-monday" value="Mon" checked><span title="Monday">Mon</span>
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="day" id="day-tuesday" value="Tue"><span title="Tuesday">Tue</span>
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="day" id="day-wednesday" value="Wed"><span title="Wednesday">Wed</span>
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="day" id="day-thursday" value="Thu"><span title="Thursday">Thu</span>
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="day" id="day-friday" value="Fri"><span title="Friday">Fri</span>
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="day" id="day-saturday" value="Sat"><span title="Saturday">Sat</span>
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="day" id="day-sunday" value="Sun"><span title="Sunday">Sun</span>
+					</label>
+				</div>
 			</div>
 
-			<div class="time col-md-3">
+			<div class="time col-sm-3">
 				<h4>Time</h4>
-				<input type="range" name="time" min="0" max="24" step="1" value="12">
+				<div class="range-container">
+					<input type="range" name="time" min="0" max="24" step="1" value="12">
+				</div>
 			</div>
 
-			<div class="direction col-md-3">
+			<div class="direction col-sm-3">
 				<h4>Direction:</h4>
-				<label class="radio-inline">
-					<input type="radio" name="direction" id="direction-in" value="in"> Going in
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="direction" id="direction-out" value="out"> Going out
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="direction" id="direction-all" value="all" checked> All usage
-				</label>
+				<div class="options-bar">
+					<label class="radio-inline">
+						<input type="radio" name="direction" id="direction-all" value="all" checked><span class="all" title="All usage"><div>All usage</div></span>
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="direction" id="direction-in" value="in"><span class="in" title="Going in"><div>Going in</div></span>
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="direction" id="direction-out" value="out"><span class="out" title="Going out"><div>Going out</div></span>
+					</label>
+				</div>
 			</div>
 		</div>
 	</form>
