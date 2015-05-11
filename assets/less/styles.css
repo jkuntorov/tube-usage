@@ -6,27 +6,34 @@ body {
 }
 #container {
   position: absolute;
-  top: 20px;
-  left: 20px;
-  right: 20px;
-  bottom: 100px;
+  padding: 10px;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 110px;
 }
-#settings {
+#container.loading {
+  background-image: url('../images/loader.gif');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#options {
+  background: white;
   position: absolute;
   bottom: 20px;
   left: 20px;
   right: 20px;
 }
-#settings .options-bar {
+#options .options-bar {
   border: 1px solid #cccccc;
   height: 46px;
   border-radius: 3px;
   overflow: hidden;
 }
-#settings .options-bar input {
+#options .options-bar input {
   visibility: hidden;
 }
-#settings .options-bar label {
+#options .options-bar label {
   border-right: 1px solid #cccccc;
   padding-left: 0;
   margin: 0;
@@ -35,7 +42,7 @@ body {
   text-align: center;
   font-size: 16px;
 }
-#settings .options-bar label span {
+#options .options-bar label span {
   width: 100%;
   margin: 0 auto;
   padding: 0 15px;
@@ -43,32 +50,32 @@ body {
   display: inline-block;
   transition: all 0.15s;
 }
-#settings .options-bar label span:hover {
+#options .options-bar label span:hover {
   transition: all 0.15s;
   background: #eeeeee;
 }
-#settings .options-bar label:last-child {
+#options .options-bar label:last-child {
   border-right: none;
 }
-#settings .options-bar input[type=radio]:checked + span {
+#options .options-bar input[type=radio]:checked + span {
   transition: all 0.15s;
   background-color: #ee0000;
   color: white;
 }
-#settings h4 {
+#options h4 {
   font-size: 13px;
   text-transform: uppercase;
 }
-#settings .day .options-bar label {
+#options .day .options-bar label {
   width: 14.285714285714286%;
 }
-#settings .direction .options-bar {
+#options .direction .options-bar {
   width: 99%;
 }
-#settings .direction .options-bar label {
+#options .direction .options-bar label {
   width: 33.333333333333336%;
 }
-#settings .direction .options-bar label span div {
+#options .direction .options-bar label span div {
   display: inline-block;
   width: 30px;
   height: 30px;
@@ -78,31 +85,35 @@ body {
   text-indent: -9999px;
   background-image: url('../images/icons.png');
 }
-#settings .direction .options-bar label span.all div {
+#options .direction .options-bar label span.all div {
   background-position: 0px 0px;
 }
-#settings .direction .options-bar label span.in div {
+#options .direction .options-bar label span.in div {
   background-position: -30px 0px;
 }
-#settings .direction .options-bar label span.out div {
+#options .direction .options-bar label span.out div {
   background-position: -60px 0px;
 }
-#settings .direction .options-bar label input[type=radio]:checked + span.all div {
+#options .direction .options-bar label input[type=radio]:checked + span.all div {
   background-position: 0px -30px;
 }
-#settings .direction .options-bar label input[type=radio]:checked + span.in div {
+#options .direction .options-bar label input[type=radio]:checked + span.in div {
   background-position: -30px -30px;
 }
-#settings .direction .options-bar label input[type=radio]:checked + span.out div {
+#options .direction .options-bar label input[type=radio]:checked + span.out div {
   background-position: -60px -30px;
 }
-#settings .range-container {
-  padding-top: 19px;
+#options .range-container {
+  position: relative;
 }
-#settings .range-container input[type=range] {
+#options .range-container #current-time {
+  margin-left: 42%;
+  padding-bottom: 5px;
+}
+#options .range-container input[type=range] {
   -webkit-appearance: none;
 }
-#settings .range-container input[type=range]::-webkit-slider-runnable-track {
+#options .range-container input[type=range]::-webkit-slider-runnable-track {
   width: 300px;
   height: 6px;
   border: 1px solid #cccccc;
@@ -110,7 +121,7 @@ body {
   border-radius: 3px;
   transition: all 0.3s;
 }
-#settings .range-container input[type=range]::-webkit-slider-thumb {
+#options .range-container input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   border: none;
   height: 20px;
@@ -120,10 +131,10 @@ body {
   border: 1px solid #cc0000;
   margin-top: -8px;
 }
-#settings .range-container input[type=range]:focus {
+#options .range-container input[type=range]:focus {
   outline: none;
 }
-#settings .range-container input[type=range]:focus::-webkit-slider-runnable-track {
+#options .range-container input[type=range]:focus::-webkit-slider-runnable-track {
   transition: all 0.3s;
   background: #eeeeee;
 }

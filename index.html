@@ -12,58 +12,75 @@
 	<link rel="stylesheet" type="text/css" href="assets/less/styles.css">
 </head>
 <body>
-	<form id="settings" class="container	">
-		<div class="row">
-			<div class="day col-sm-6">
-				<h4>Day of the week:</h4>
-				<div class="options-bar">
-					<label class="radio-inline">
-						<input type="radio" name="day" id="day-monday" value="Mon" checked><span title="Monday">Mon</span>
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="day" id="day-tuesday" value="Tue"><span title="Tuesday">Tue</span>
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="day" id="day-wednesday" value="Wed"><span title="Wednesday">Wed</span>
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="day" id="day-thursday" value="Thu"><span title="Thursday">Thu</span>
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="day" id="day-friday" value="Fri"><span title="Friday">Fri</span>
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="day" id="day-saturday" value="Sat"><span title="Saturday">Sat</span>
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="day" id="day-sunday" value="Sun"><span title="Sunday">Sun</span>
-					</label>
-				</div>
-			</div>
+	<div id="container" class="loading"></div>
 
-			<div class="time col-sm-3">
-				<h4>Time</h4>
-				<div class="range-container">
-					<input type="range" name="time" min="0" max="24" step="1" value="12">
-				</div>
-			</div>
+	<svg>
+		<defs>
+			<path id="thames" fill="none" stroke="#00C7FF" stroke-width="2" d="M662.545,96.645c-14.088,10.721-24.844,13.034-31.799,14.839
+	c-12.338,0.208-30.543-13.666-52.291-36.038c-11.199-19.552-27.436-38.786-38.863-34.625c-14.174,9.183-34.131-5.035-52.291-26.146
+	c-25.68-18.503-43.033-14.112-61.477-12.719c-14.84,5.386-29.679,10.083-44.519,9.893c-22.104,5.911-31.834,19.246-45.224,30.385
+	c-16.843,6.591-37.587,2.778-60.063-5.653c-18.171-14.365-28.214-13.633-33.211-3.533c-4.763,9.099-2.954,17.998,0,29.678
+	c-0.344,17.811-29.794,21.25-36.745-0.707c-1.732-14.319,4.869-31.139-14.133-40.278c-11.417-3.631-19.879,1.603-27.559,9.187
+	c-13.981,10.232-38.526-3.301-59.356-8.479c-24.982-5.488-30.545,3.589-33.212,14.839c3.617,31.605-17.25,33.261-29.678,41.691
+	c-9.961,5.252-30.716-2.181-42.397,8.479"/>
+		</defs>
+	</svg>
 
-			<div class="direction col-sm-3">
-				<h4>Direction:</h4>
-				<div class="options-bar">
-					<label class="radio-inline">
-						<input type="radio" name="direction" id="direction-all" value="all" checked><span class="all" title="All usage"><div>All usage</div></span>
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="direction" id="direction-in" value="in"><span class="in" title="Going in"><div>Going in</div></span>
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="direction" id="direction-out" value="out"><span class="out" title="Going out"><div>Going out</div></span>
-					</label>
+	<div id="options">
+		<div class="container">
+			<div class="row">
+				<div class="day col-sm-6">
+					<h4>Day of the week:</h4>
+					<div class="options-bar">
+						<label class="radio-inline">
+							<input type="radio" name="day" id="day-monday" value="Mon" checked><span title="Monday">Mon</span>
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="day" id="day-tuesday" value="Tue"><span title="Tuesday">Tue</span>
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="day" id="day-wednesday" value="Wed"><span title="Wednesday">Wed</span>
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="day" id="day-thursday" value="Thu"><span title="Thursday">Thu</span>
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="day" id="day-friday" value="Fri"><span title="Friday">Fri</span>
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="day" id="day-saturday" value="Sat"><span title="Saturday">Sat</span>
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="day" id="day-sunday" value="Sun"><span title="Sunday">Sun</span>
+						</label>
+					</div>
+				</div>
+
+				<div class="time col-sm-3">
+					<h4>Time</h4>
+					<div class="range-container">
+						<label id="current-time">12:00</label>
+						<input type="range" name="time" min="0" max="24" step="1" value="12">
+					</div>
+				</div>
+
+				<div class="direction col-sm-3">
+					<h4>Direction:</h4>
+					<div class="options-bar">
+						<label class="radio-inline">
+							<input type="radio" name="direction" id="direction-all" value="all" checked><span class="all" title="All usage"><div>All usage</div></span>
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="direction" id="direction-in" value="in"><span class="in" title="Going in"><div>Going in</div></span>
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="direction" id="direction-out" value="out"><span class="out" title="Going out"><div>Going out</div></span>
+						</label>
+					</div>
 				</div>
 			</div>
 		</div>
-	</form>
+	</div>
 
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 	<script type="text/javascript">
@@ -114,9 +131,13 @@
 		});
 
 		function init() {
-			var canvas = d3.select("body")
-						.append("div").attr({id: "container"})
-						.append("svg");
+			var container = d3.select("#container");
+
+			container.transition().duration(900).attr({
+				class: ""
+			});
+
+			var canvas = container.append("svg");
 
 			canvas.attr({
 				"preserveAspectRatio": "xMidYMid",
@@ -130,6 +151,14 @@
 				width: "100%",
 				height: "100%",
 				fill: "#dadada"
+			});
+			*/
+
+			/*
+			// add river thames
+			canvas.append("use").attr({
+				"xlink:href": "#thames",
+				"transform": "scale(1) translate(660,350)",
 			});
 			*/
 
@@ -170,7 +199,15 @@
 
 		function updateTimeLabel() {
 			var time = d3.select('input[type="range"]').node().value.toString();
-			d3.select('.time h4').text("Time: " + time + ":00");
+			d3.select('#current-time').text(time + ":00").style({
+				"margin-left": function() {
+					var margin = time * 3.5;
+
+					if (margin > 83) margin = 83;
+
+					return margin + '%';
+				}
+			})
 		}
 
 		function getCircleSize(circleData, day, time, direction) {
@@ -191,22 +228,26 @@
 			// fix bug in which data for single digit hours is not displayed
 			if (time.length == 1) {time = "0" + time;}
 
-			circles.transition().duration(900).ease('elastic', 1, 0.75).attr({
-				fill: function(d) {
-					return shadeColor("#ff0000", (-1 * getCircleSize(d.data, day, time, direction)));
-				},
-				r: function(d) {
-					var size = getCircleSize(d.data, day, time, direction);
-					
-					if (size > 0 && size < 2) {
-						return size + 2;
-					} else if (size > 50) {
-						return size/10 + 50;
-					} else {
-						return size;
+			if (circles !== undefined) {
+				circles.transition().duration(900).ease('elastic', 1, 0.75).attr({
+					fill: function(d) {
+						return shadeColor("#ff0000", (-1 * getCircleSize(d.data, day, time, direction)));
+					},
+					r: function(d) {
+						var size = getCircleSize(d.data, day, time, direction);
+
+						if (size <= 0) {
+							return 0;
+						} else if (size > 0 && size < 2) {
+							return size + 2;
+						} else if (size > 50) {
+							return size*0.1 + 50;
+						} else {
+							return size;
+						}
 					}
-				}
-			});
+				});
+			}
 		}
 
 	</script>

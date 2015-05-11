@@ -13,10 +13,18 @@ html, body {
 
 #container {
 	position: absolute;
-	top: 20px; left: 20px; right: 20px; bottom: 100px;
+	padding: 10px;
+	top: 0px; left: 0px; right: 0px; bottom: 110px;
+
+	&.loading {
+		background-image: url('../images/loader.gif');
+		background-repeat: no-repeat;
+		background-position: center;
+	}
 }
 
-#settings {
+#options {
+	background: white;
 	position: absolute;
 	bottom: 20px; left: 20px; right: 20px;
 
@@ -128,7 +136,12 @@ html, body {
 	}
 
 	.range-container {
-		padding-top: 19px;
+		position: relative;
+		
+		#current-time {
+			margin-left: 42%;
+			padding-bottom: 5px;
+		}
 
 		input[type=range]{
 			-webkit-appearance: none;
