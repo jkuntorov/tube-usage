@@ -135,27 +135,75 @@ svg {
   -webkit-animation-iteration-count: infinite;
   -webkit-transform-origin: center;
   -webkit-animation: pulsate 5s ease-out;
+  -moz-animation-iteration-count: infinite;
+  -moz-transform-origin: center;
+  -moz-animation: pulsate 5s ease-out;
+  -ms-animation-iteration-count: infinite;
+  -ms-transform-origin: center;
+  -ms-animation: pulsate 5s ease-out;
+  -o-animation-iteration-count: infinite;
+  -o-transform-origin: center;
+  -o-animation: pulsate 5s ease-out;
+  animation-iteration-count: infinite;
+  transform-origin: center;
+  animation: pulsate 5s ease-out;
 }
 .station-circle:nth-child(2n - 1) {
-  -webkit-animation-duration: 5s;
+  -webkit-animation-duration: 3s;
   -webkit-animation-iteration-count: infinite;
+  -moz-animation-duration: 3s;
+  -moz-animation-iteration-count: infinite;
+  -ms-animation-duration: 3s;
+  -ms-animation-iteration-count: infinite;
+  -o-animation-duration: 3s;
+  -o-animation-iteration-count: infinite;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
 }
 .station-circle:nth-child(2n) {
-  -webkit-animation-duration: 15s;
+  -webkit-animation-duration: 9s;
   -webkit-animation-iteration-count: infinite;
+  -moz-animation-duration: 9s;
+  -moz-animation-iteration-count: infinite;
+  -ms-animation-duration: 9s;
+  -ms-animation-iteration-count: infinite;
+  -o-animation-duration: 9s;
+  -o-animation-iteration-count: infinite;
+  animation-duration: 9s;
+  animation-iteration-count: infinite;
 }
 .station-circle:nth-child(2n + 1) {
-  -webkit-animation-duration: 10s;
+  -webkit-animation-duration: 6s;
   -webkit-animation-iteration-count: infinite;
+  -moz-animation-duration: 6s;
+  -moz-animation-iteration-count: infinite;
+  -ms-animation-duration: 6s;
+  -ms-animation-iteration-count: infinite;
+  -o-animation-duration: 6s;
+  -o-animation-iteration-count: infinite;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
 }
 @-webkit-keyframes pulsate {
   0% {
-    -webkit-transform: scale(1, 1);
+    -webkit-transform: scale(0.95, 0.95);
+    -moz-transform: scale(0.95, 0.95);
+    -ms-transform: scale(0.95, 0.95);
+    -o-transform: scale(0.95, 0.95);
+    transform: scale(0.95, 0.95);
   }
   50% {
-    -webkit-transform: scale(1.1, 1.1);
+    -webkit-transform: scale(1.05, 1.05);
+    -moz-transform: scale(1.05, 1.05);
+    -ms-transform: scale(1.05, 1.05);
+    -o-transform: scale(1.05, 1.05);
+    transform: scale(1.05, 1.05);
   }
   100% {
-    -webkit-transform: scale(1, 1);
+    -webkit-transform: scale(0.95, 0.95);
+    -moz-transform: scale(0.95, 0.95);
+    -ms-transform: scale(0.95, 0.95);
+    -o-transform: scale(0.95, 0.95);
+    transform: scale(0.95, 0.95);
   }
 }

@@ -170,29 +170,63 @@ svg {
 	height: 100%;	
 }
 
+.animation-options(@iterations, @origin, @animation) {
+	-webkit-animation-iteration-count: @iterations;
+	-webkit-transform-origin: @origin;
+	-webkit-animation: @animation;
+	-moz-animation-iteration-count: @iterations;
+	-moz-transform-origin: @origin;
+	-moz-animation: @animation;
+	-ms-animation-iteration-count: @iterations;
+	-ms-transform-origin: @origin;
+	-ms-animation: @animation;
+	-o-animation-iteration-count: @iterations;
+	-o-transform-origin: @origin;
+	-o-animation: @animation;
+	animation-iteration-count: @iterations;
+	transform-origin: @origin;
+	animation: @animation;
+}
+
+.specific-animation-options(@duration, @iterations) {
+	-webkit-animation-duration: @duration;
+	-webkit-animation-iteration-count: @iterations;
+	-moz-animation-duration: @duration;
+	-moz-animation-iteration-count: @iterations;
+	-ms-animation-duration: @duration;
+	-ms-animation-iteration-count: @iterations;
+	-o-animation-duration: @duration;
+	-o-animation-iteration-count: @iterations;
+	animation-duration: @duration;
+	animation-iteration-count: @iterations;
+}
+
 .station-circle {
-	-webkit-animation-iteration-count: infinite;
-	-webkit-transform-origin: center;
-	-webkit-animation: pulsate 5s ease-out;
+	.animation-options(infinite, center, pulsate 5s ease-out);
 }
 
 .station-circle:nth-child(2n - 1) {
-	-webkit-animation-duration: 5s;
-	-webkit-animation-iteration-count: infinite;
+	.specific-animation-options(3s, infinite);
 }
 
 .station-circle:nth-child(2n) {
-	-webkit-animation-duration: 15s;
-	-webkit-animation-iteration-count: infinite;
+	.specific-animation-options(9s, infinite);
 }
 
 .station-circle:nth-child(2n + 1) {
-	-webkit-animation-duration: 10s;
-	-webkit-animation-iteration-count: infinite;
+	.specific-animation-options(6s, infinite);
+}
+
+.pulsate-transform(@transform) {
+	-webkit-transform: @transform;
+	-moz-transform: @transform;
+	-ms-transform: @transform;
+	-o-transform: @transform;
+	transform: @transform;
 }
 
 @-webkit-keyframes pulsate {
-	0% {-webkit-transform: scale(1, 1);}
-	50% {-webkit-transform: scale(1.1, 1.1);}
-	100% {-webkit-transform: scale(1, 1);}
+	0% {.pulsate-transform(scale(0.95, 0.95));}
+	50% {.pulsate-transform(scale(1.05, 1.05));}
+	100% {.pulsate-transform(scale(0.95, 0.95));}
 }
