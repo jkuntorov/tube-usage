@@ -12,7 +12,7 @@
 	<link rel="stylesheet" type="text/css" href="assets/less/styles.css">
 </head>
 <body>
-	<div id="container" class="loading"></div>
+	<div id="container" class="loading animated-circles"></div>
 	<div id="menu">
 		<div class="container">
 			<div class="row">
@@ -127,9 +127,10 @@
 			return newColorStr;
 		}
 
-		var colorScale;
+		var container;
 		var data;
 		var circles;
+		var colorScale;
 		var day;
 		var time;
 		var direction;
@@ -141,10 +142,10 @@
 		});
 
 		function init() {
-			var container = d3.select("#container");
+			container = d3.select("#container");
 
 			container.transition().duration(900).attr({
-				class: ""
+				class: "animated-circles"
 			});
 
 			var canvas = container.append("svg");
@@ -211,19 +212,24 @@
 
 		d3.selectAll('input[name="day"]').on("change", function() {
 			redraw();
+			pauseAutoplay();
 		});
 
 		d3.select('input[name="time"]').on("change", function() {
+			pauseAutoplay();
 			updateTimeLabel();
 			redraw();
 		});
 
 		d3.select('input[name="time"]').on("input", function() {
+			pauseAutoplay();
 			updateTimeLabel();
 			redraw();
 		});
 
 		d3.selectAll('input[name="direction"]').on("change", function() {
+			// shoud i pause autoplay if direction is changed?
+			// pauseAutoplay();
 			redraw();
 		});
 
@@ -250,13 +256,18 @@
 			}
 		}
 
-		function redraw() {
-			day = d3.select('input[name="day"]:checked').node().value;
-			time = d3.select('input[type="range"]').node().value.toString();
-			direction = d3.select('input[name="direction"]:checked').node().value;
+		function redraw(checkInput) {
+			// default behavious: check for changes in user input
+			checkInput = typeof checkInput !== 'undefined' ? checkInput : true;
 
-			// fix bug in which data for single digit hours is not displayed
-			if (time.length == 1) {time = "0" + time;}
+			if (checkInput) {
+				day = d3.select('input[name="day"]:checked').node().value;
+				time = d3.select('input[type="range"]').node().value.toString();
+				direction = d3.select('input[name="direction"]:checked').node().value;
+
+				// fix bug in which data for single digit hours is not displayed
+				if (time.length == 1) {time = "0" + time;}
+			}
 
 			circles.sort(function (a, b) {	// select the parent and sort the path's
 				if (numberOfPeople(a.data, day, time, direction) > numberOfPeople(b.data, day, time, direction)) return -1;				// a is not the hovered element, send "a" to the back
@@ -264,8 +275,9 @@
 			});
 
 			if (circles !== undefined) {
-				circles.transition().duration(900).ease('elastic', 1, 0.75).attr({
-				// circles.transition().duration(900).ease('quad').attr({
+				// circles.transition().duration(900).ease('elastic', 1, 0.75).attr({
+				circles.transition().duration(900).ease('quad').attr({
+				// circles.transition().duration(900).ease('linear').attr({
 					fill: function(d) {
 						return colorScale(numberOfPeople(d.data, day, time, direction));
 					},
@@ -293,8 +305,104 @@
 			}
 		}
 
-		function autoplay() {
+		var allDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+		var allTimes = [
+			"00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
+			"10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
+			"20", "21", "22", "23", "24"
+		];
 
+		var paused = false;
+		var autoplayDuration = 900;
+		var autoplayStartDay;
+		var autoplayStartTime;
+		var autoplayStartDirection;
+
+		function inputChanged() {
+			var changes = false;
+
+			if (paused) return true;
+
+			console.log("check for changes: " + changes);
+			return changes;
+		}
+
+		function updateInputControls() {
+			console.log("update input controls");
+			
+			d3.select('input[name="day"]:checked').property("checked", false);
+			d3.selectAll('input[name="day"]').each(function(d){ 
+				if(d3.select(this).property("value") == day) 
+				d3.select(this).node().checked = true;
+			});
+			
+			d3.select('input[type="range"]').node().value = time;
+			updateTimeLabel();
+		}
+
+		function visualiseNext() {
+			if (inputChanged()) return false;
+			console.log("visualise next enter");
+
+			if (day == "Sun" && time == "24") {
+				day = "Mon";
+				time = "00";
+			} else if (time == "24") {
+				day = allDays[(allDays.indexOf(day) + 1)];
+				time = "00";
+				console.log("change day " + day + " and time " + time);
+			} else {
+				time = allTimes[(allTimes.indexOf(time) + 1)];
+				console.log("change time " + time);
+			}
+
+			updateInputControls();
+			redraw(false);
+			return true;
+		}
+
+		function autoplay() {
+			setTimeout(function () {
+				if (visualiseNext() == true) {
+					autoplay();
+				} else {
+					return false;
+				}
+			}, autoplayDuration);
+		}
+
+		d3.select("#autoplay").on("click", function() {
+			autoplayStartDay = day;
+			autoplayStartTime = time;
+			autoplayStartDirection = direction;
+
+			if (paused == true) {
+				paused = false;
+				updatePlayButton();
+				container.attr({class: ""});
+				autoplay();
+			} else {
+				paused = true;
+				updatePlayButton();
+				container.attr({class: "animated-circles"});
+			}
+		});
+
+		function updatePlayButton() {
+			if (paused == true) {
+				d3.select("#autoplay").attr("class","paused");
+				d3.select("#autoplay span").text("Start");
+			} else {
+				d3.select("#autoplay").attr("class", "playing");
+				d3.select("#autoplay span").text("Pause");
+			}
+		}
+
+		function pauseAutoplay() {
+			if (paused == false) {
+				paused = true;
+				updatePlayButton();
+			}
 		}
 
 	</script>

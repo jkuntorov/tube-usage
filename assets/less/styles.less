@@ -387,25 +387,6 @@ svg {
 	animation-iteration-count: @iterations;
 }
 
-.station-circle {
-	.animation-options(infinite, center, pulsate 5s ease-out);
-
-	&:hover {
-		filter: invert(100%);
-	}
-}
-
-.station-circle:nth-child(2n - 1) {
-	.specific-animation-options(3s, infinite);
-}
-
-.station-circle:nth-child(2n) {
-	.specific-animation-options(9s, infinite);
-}
-
-.station-circle:nth-child(2n + 1) {
-	.specific-animation-options(6s, infinite);
-}
 
 .pulsate-transform(@transform) {
 	-webkit-transform: @transform;
@@ -419,4 +400,22 @@ svg {
 	0% {.pulsate-transform(scale(0.95, 0.95));}
 	50% {.pulsate-transform(scale(1.05, 1.05));}
 	100% {.pulsate-transform(scale(0.95, 0.95));}
+}
+
+.animated-circles {
+	.station-circle {
+		.animation-options(infinite, center, pulsate 5s ease-out);
+	}
+
+	.station-circle:nth-child(2n - 1) {
+		.specific-animation-options(3s, infinite);
+	}
+
+	.station-circle:nth-child(2n) {
+		.specific-animation-options(9s, infinite);
+	}
+
+	.station-circle:nth-child(2n + 1) {
+		.specific-animation-options(6s, infinite);
+	}
 }
