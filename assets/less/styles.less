@@ -327,14 +327,22 @@ svg {
 	height: 100%;	
 }
 
-.d3-tip {
+.tooltip {
 	line-height: 1;
+	font-family: @sans-serif-font;
 	font-size: @min-font-size;
+	line-height: @min-line-height;
 	font-weight: normal;
 	padding: 12px;
 	background: rgba(0, 0, 0, 0.8);
 	color: #fff;
 	border-radius: 3px;
+	text-align: center;
+
+	.details {
+		text-transform: uppercase;
+		font-size: 10px;
+	}
 
 	&:after {
 		box-sizing: border-box;

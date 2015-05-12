@@ -131,6 +131,7 @@
 		var data;
 		var circles;
 		var colorScale;
+		var tip;
 		var day;
 		var time;
 		var direction;
@@ -170,12 +171,29 @@
 						// .range(["#ff0000", "#000000"]);
 						.range([heatmapYellow, heatmapRed]);
 
-			var tip = d3.tip()
-				.attr('class', 'd3-tip')
+			tip = d3.tip()
+				.attr('class', 'tooltip')
 				.offset([-10, 0])
 				.html(function(d) {
-					return d.name;
-					// return d.name + "<br/>" + numberOfPeople(d, day, time, direction);
+					var commutersNumber = numberOfPeople(d.data, day, time, direction);
+					var tooltipHTML = d.name + '<br /><span class="details">' + commutersNumber;
+					
+					if (commutersNumber > 1) {
+						tooltipHTML += ' commuters ';
+					} else {
+						tooltipHTML += ' commuter ';
+					}
+
+					switch(direction) {
+						case 'in':
+							tooltipHTML += 'going in';
+							break;
+						case 'out':
+							tooltipHTML += 'going out';
+							break;
+					}
+					tooltipHTML += '</span class="details">';
+					return tooltipHTML;
 				});
 
 			circles = canvas.selectAll("circle")
@@ -273,6 +291,8 @@
 				if (numberOfPeople(a.data, day, time, direction) > numberOfPeople(b.data, day, time, direction)) return -1;				// a is not the hovered element, send "a" to the back
 				else return 1;								// a is the hovered element, bring "a" to the front
 			});
+
+			circles.call(tip)
 
 			if (circles !== undefined) {
 				// circles.transition().duration(900).ease('elastic', 1, 0.75).attr({
