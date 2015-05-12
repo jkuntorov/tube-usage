@@ -10,11 +10,30 @@ body {
   top: 0px;
   left: 0px;
   right: 0px;
-  bottom: 110px;
 }
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 992px) {
   #container {
-    bottom: 230px;
+    bottom: 110px;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  #container {
+    bottom: 185px;
+  }
+}
+@media screen and (min-width: 400px) and (max-width: 767px) {
+  #container {
+    bottom: 350px;
+  }
+}
+@media screen and (max-width: 399px) {
+  #container {
+    display: none;
+  }
+}
+@media screen and (max-height: 400px) {
+  #container {
+    bottom: 50px;
   }
 }
 #container.loading {
@@ -22,7 +41,7 @@ body {
   background-repeat: no-repeat;
   background-position: center;
 }
-#options {
+#menu {
   background: white;
   position: absolute;
   bottom: 20px;
@@ -30,27 +49,20 @@ body {
   right: 20px;
 }
 @media screen and (max-width: 768px) {
-  #options {
-    bottom: 15px;
-    left: 0px;
-    right: 0px;
-  }
-}
-@media screen and (max-width: 768px) {
-  #options .option {
+  #menu .option {
     margin-top: 15px;
   }
 }
-#options .options-bar {
+#menu .options-bar {
   border: 1px solid #cccccc;
   height: 46px;
   border-radius: 3px;
   overflow: hidden;
 }
-#options .options-bar input {
+#menu .options-bar input {
   visibility: hidden;
 }
-#options .options-bar label {
+#menu .options-bar label {
   border-right: 1px solid #cccccc;
   padding-left: 0;
   margin: 0;
@@ -59,7 +71,7 @@ body {
   text-align: center;
   font-size: 14px;
 }
-#options .options-bar label span {
+#menu .options-bar label span {
   width: 100%;
   margin: 0 auto;
   padding: 0px;
@@ -67,34 +79,116 @@ body {
   display: inline-block;
   transition: all 0.15s;
 }
-#options .options-bar label span:hover {
+#menu .options-bar label span:hover {
   transition: all 0.15s;
   background: #eeeeee;
 }
-#options .options-bar label:last-child {
+#menu .options-bar label:last-child {
   border-right: none;
 }
-#options .options-bar input[type=radio]:checked + span {
+#menu .options-bar input[type=radio]:checked + span {
   transition: all 0.15s;
   background-color: #ee0000;
   color: white;
 }
-#options h4 {
+#menu h2 {
   font-size: 13px;
+  line-height: 16px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin: 0 0 5px 0;
 }
-#options .day .options-bar label {
+#menu .title {
+  text-align: right;
+}
+@media screen and (max-width: 992px) {
+  #menu .title {
+    text-align: center;
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  #menu .title {
+    padding-right: 30px;
+    border-right: 1px solid #cccccc;
+  }
+}
+#menu .title h1 {
+  font-size: 13px;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  margin: 1px 0 5px 0;
+}
+#menu .title h1 i {
+  width: 13px;
+  height: 13px;
+  background: url("../images/roundel.svg") no-repeat center;
+  display: inline-block;
+  background-size: 13px 13px;
+  vertical-align: -2px;
+}
+@media screen and (min-width: 992px) and (max-width: 1200px) {
+  #menu .title h1 i {
+    display: none;
+  }
+}
+#menu .title h2 {
+  margin: 0;
+}
+#menu .title .phone-instructions {
+  font-size: 13px;
+  line-height: 16px;
+}
+@media screen and (min-width: 480px) {
+  #menu .title .phone-instructions {
+    display: none;
+  }
+}
+#menu .title #autoplay {
+  margin-top: -4px;
+  display: inline-block;
+  opacity: 0.5;
+  cursor: pointer;
+  font-weight: bold;
+  color: #000;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+#menu .title #autoplay:hover {
+  opacity: 0.75;
+  text-decoration: none;
+}
+#menu .title #autoplay i {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  margin: 7.5px auto 0;
+  background-repeat: no-repeat;
+  background-size: 26px 13px;
+  text-indent: -9999px;
+  background-image: url('../images/autoplay.png');
+  vertical-align: -1px;
+}
+#menu .title #autoplay.playing i {
+  background-position: -13px 0px;
+}
+#menu .title #autoplay.paused i {
+  background-position: 0px 0px;
+}
+#menu .day .options-bar label {
   width: 14.285714285714286%;
 }
-#options .direction .options-bar {
+#menu .direction .options-bar {
   width: 99%;
 }
-#options .direction .options-bar label {
+#menu .direction .options-bar label {
   width: 33.333333333333336%;
 }
-#options .direction .options-bar label span div {
+#menu .direction .options-bar label span div {
   display: inline-block;
   width: 30px;
   height: 30px;
@@ -102,37 +196,37 @@ body {
   background-repeat: no-repeat;
   background-size: 90px 60px;
   text-indent: -9999px;
-  background-image: url('../images/icons.png');
+  background-image: url('../images/commuters.png');
 }
-#options .direction .options-bar label span.all div {
+#menu .direction .options-bar label span.all div {
   background-position: 0px 0px;
 }
-#options .direction .options-bar label span.in div {
+#menu .direction .options-bar label span.in div {
   background-position: -30px 0px;
 }
-#options .direction .options-bar label span.out div {
+#menu .direction .options-bar label span.out div {
   background-position: -60px 0px;
 }
-#options .direction .options-bar label input[type=radio]:checked + span.all div {
+#menu .direction .options-bar label input[type=radio]:checked + span.all div {
   background-position: 0px -30px;
 }
-#options .direction .options-bar label input[type=radio]:checked + span.in div {
+#menu .direction .options-bar label input[type=radio]:checked + span.in div {
   background-position: -30px -30px;
 }
-#options .direction .options-bar label input[type=radio]:checked + span.out div {
+#menu .direction .options-bar label input[type=radio]:checked + span.out div {
   background-position: -60px -30px;
 }
-#options .range-container {
+#menu .range-container {
   position: relative;
 }
-#options .range-container #current-time {
+#menu .range-container #current-time {
   margin-left: 42%;
   padding-bottom: 5px;
 }
-#options .range-container input[type=range] {
+#menu .range-container input[type=range] {
   -webkit-appearance: none;
 }
-#options .range-container input[type=range]::-webkit-slider-runnable-track {
+#menu .range-container input[type=range]::-webkit-slider-runnable-track {
   width: 300px;
   height: 6px;
   border: 1px solid #cccccc;
@@ -140,7 +234,7 @@ body {
   border-radius: 3px;
   transition: all 0.3s;
 }
-#options .range-container input[type=range]::-webkit-slider-thumb {
+#menu .range-container input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   border: none;
   height: 20px;
@@ -150,12 +244,43 @@ body {
   border: 1px solid #cc0000;
   margin-top: -8px;
 }
-#options .range-container input[type=range]:focus {
+#menu .range-container input[type=range]:focus {
   outline: none;
 }
-#options .range-container input[type=range]:focus::-webkit-slider-runnable-track {
+#menu .range-container input[type=range]:focus::-webkit-slider-runnable-track {
   transition: all 0.3s;
   background: #eeeeee;
+}
+@media screen and (max-height: 400px) {
+  #menu .title {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+  #menu .title h2 {
+    display: none;
+  }
+  #menu .title #autoplay {
+    display: block !important;
+  }
+  #menu .options {
+    display: none;
+  }
+}
+@media screen and (max-width: 480px) {
+  #menu .title h2 {
+    display: none;
+  }
+  #menu .title #autoplay {
+    display: none;
+  }
+}
+@media screen and (max-width: 768px) {
+  #menu {
+    bottom: 15px;
+    left: 0px;
+    right: 0px;
+  }
 }
 svg {
   width: 100%;

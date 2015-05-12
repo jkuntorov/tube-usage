@@ -26,56 +26,68 @@
 		</defs>
 	</svg>
 
-	<div id="options">
+	<div id="menu">
 		<div class="container">
 			<div class="row">
-				<div class="option direction col-sm-3">
-					<h4>Commuters</h4>
-					<div class="options-bar">
-						<label class="radio-inline">
-							<input type="radio" name="direction" id="direction-all" value="all" checked><span class="all" title="All commuters"><div>All commuters</div></span>
-						</label>
-						<label class="radio-inline">
-							<input type="radio" name="direction" id="direction-in" value="in"><span class="in" title="Commuters going in"><div>Commuters going in</div></span>
-						</label>
-						<label class="radio-inline">
-							<input type="radio" name="direction" id="direction-out" value="out"><span class="out" title="Commuters going out"><div>Commuters going out</div></span>
-						</label>
+				<div class="col-md-3">
+					<div class="title">
+						<h1><i class="roundel"></i> London Underground Usage</h1>
+						<h2>How many people use the Tube <span class="hidden-md">stations</span> around the clock?</h2>
+						<p class="phone-instructions">Rotate phone to switch between the infographic and the visualisation options.</p>
+						<!-- <a id="autoplay" class="playing"><i></i> Pause</a> -->
 					</div>
 				</div>
+				<div class="options col-md-9">
+					<div class="row">
+						<div class="option direction col-sm-3">
+							<h2>Commuters</h2>
+							<div class="options-bar">
+								<label class="radio-inline">
+									<input type="radio" name="direction" id="direction-all" value="all" checked><span class="all" title="All commuters"><div>All commuters</div></span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="direction" id="direction-in" value="in"><span class="in" title="Commuters going in"><div>Commuters going in</div></span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="direction" id="direction-out" value="out"><span class="out" title="Commuters going out"><div>Commuters going out</div></span>
+								</label>
+							</div>
+						</div>
 
-				<div class="option time col-sm-3">
-					<h4>Time</h4>
-					<div class="range-container">
-						<label id="current-time">12:00</label>
-						<input type="range" name="time" min="0" max="24" step="1" value="12">
-					</div>
-				</div>
+						<div class="option time col-sm-4">
+							<h2>Time</h2>
+							<div class="range-container">
+								<label id="current-time">12:00</label>
+								<input type="range" name="time" min="0" max="24" step="1" value="12">
+							</div>
+						</div>
 
-				<div class="option day col-sm-6">
-					<h4>Day of the week:</h4>
-					<div class="options-bar">
-						<label class="radio-inline">
-							<input type="radio" name="day" id="day-monday" value="Mon" checked><span title="Monday">Mon</span>
-						</label>
-						<label class="radio-inline">
-							<input type="radio" name="day" id="day-tuesday" value="Tue"><span title="Tuesday">Tue</span>
-						</label>
-						<label class="radio-inline">
-							<input type="radio" name="day" id="day-wednesday" value="Wed"><span title="Wednesday">Wed</span>
-						</label>
-						<label class="radio-inline">
-							<input type="radio" name="day" id="day-thursday" value="Thu"><span title="Thursday">Thu</span>
-						</label>
-						<label class="radio-inline">
-							<input type="radio" name="day" id="day-friday" value="Fri"><span title="Friday">Fri</span>
-						</label>
-						<label class="radio-inline">
-							<input type="radio" name="day" id="day-saturday" value="Sat"><span title="Saturday">Sat</span>
-						</label>
-						<label class="radio-inline">
-							<input type="radio" name="day" id="day-sunday" value="Sun"><span title="Sunday">Sun</span>
-						</label>
+						<div class="option day col-sm-5">
+							<h2>Day of the week:</h2>
+							<div class="options-bar">
+								<label class="radio-inline">
+									<input type="radio" name="day" id="day-monday" value="Mon" checked><span title="Monday">Mon</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="day" id="day-tuesday" value="Tue"><span title="Tuesday">Tue</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="day" id="day-wednesday" value="Wed"><span title="Wednesday">Wed</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="day" id="day-thursday" value="Thu"><span title="Thursday">Thu</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="day" id="day-friday" value="Fri"><span title="Friday">Fri</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="day" id="day-saturday" value="Sat"><span title="Saturday">Sat</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="day" id="day-sunday" value="Sun"><span title="Sunday">Sun</span>
+								</label>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -262,14 +274,19 @@
 			// fix bug in which data for single digit hours is not displayed
 			if (time.length == 1) {time = "0" + time;}
 
+			circles.sort(function (a, b) {	// select the parent and sort the path's
+				if (numberOfPeople(a.data, day, time, direction) > numberOfPeople(b.data, day, time, direction)) return -1;				// a is not the hovered element, send "a" to the back
+				else return 1;								// a is the hovered element, bring "a" to the front
+			});
+
 			if (circles !== undefined) {
 				circles.transition().duration(900).ease('elastic', 1, 0.75).attr({
 				// circles.transition().duration(900).ease('quad').attr({
 					fill: function(d) {
-						return shadeColor(mainColor, (-1 * numberOfPeople(d.data, day, time, direction)));
+						return shadeColor(mainColor, (-2 * numberOfPeople(d.data, day, time, direction)));
 					},
 					"data-fill": function(d) {
-						return shadeColor(mainColor, (-1 * numberOfPeople(d.data, day, time, direction)));
+						return shadeColor(mainColor, (-2 * numberOfPeople(d.data, day, time, direction)));
 					},
 					r: function(d) {
 						var size = numberOfPeople(d.data, day, time, direction);
@@ -278,11 +295,15 @@
 							return 0;
 						} else if (size > 0 && size < 2) {
 							return size + 2;
-						} else if (size > 20) {
-							return size*0.1 + 20;
+						} else if (size > 50) {
+							return size*0.1 + 50;
 						} else {
-							return size;
+							return size * 0.9;
 						}
+					}
+				}).style({
+					"z-index": function(d) {
+						return -(numberOfPeople(d.data, day, time, direction));
 					}
 				});
 			}

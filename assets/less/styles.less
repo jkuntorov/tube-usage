@@ -14,11 +14,28 @@ html, body {
 #container {
 	position: absolute;
 	padding: 10px;
-	top: 0px; left: 0px; right: 0px; bottom: 110px;
+	top: 0px; left: 0px; right: 0px;
 
-	@media screen and (max-width: 768px) {
-		bottom: 230px;
+	@media screen and (min-width: 992px) {
+		bottom: 110px;
 	}
+	
+	@media screen and (min-width: 768px) and (max-width: 992px) {
+		bottom: 185px;
+	}
+
+	@media screen and (min-width: 400px) and (max-width: 767px) {
+		bottom: 350px;
+	}
+
+	@media screen and (max-width: 399px) {
+		display: none;
+	}
+
+	@media screen and (max-height: 400px) {
+		bottom: 50px;
+	}
+
 
 	&.loading {
 		background-image: url('../images/loader.gif');
@@ -27,14 +44,10 @@ html, body {
 	}
 }
 
-#options {
+#menu {
 	background: white;
 	position: absolute;
 	bottom: 20px; left: 20px; right: 20px;
-
-	@media screen and (max-width: 768px) {
-		bottom: 15px; left: 0px; right: 0px;
-	}
 
 	.option {
 		@media screen and (max-width: 768px) {
@@ -87,11 +100,99 @@ html, body {
 		}
 	}
 
-	h4 {
+	h2 {
 		font-size: 13px;
+		line-height: 16px;
 		text-transform: uppercase;
 		letter-spacing: 0.5px;
 		margin: 0 0 5px 0;
+	}
+
+	.title {
+		text-align: right;
+
+		@media screen and (max-width: 992px) {
+			text-align: center;
+			border-bottom: @settings-container-border;
+			padding-bottom: 10px;
+			margin-bottom: 15px;
+		}
+		
+		@media screen and (min-width: 1200px) {
+			padding-right: 30px;
+			border-right: @settings-container-border;
+		}
+
+		h1 {
+			font-size: 13px;
+			text-transform: uppercase;
+			font-weight: bold;
+			letter-spacing: 0.5px;
+			margin: 1px 0 5px 0;
+
+			i {
+				width: 13px;
+				height: 13px;
+				background: url("../images/roundel.svg") no-repeat center;
+				display: inline-block;
+				background-size: 13px 13px;
+				vertical-align: -2px;
+
+				@media screen and (min-width: 992px) and (max-width: 1200px) {
+					display: none;
+				}
+
+			}
+		}
+
+		h2 {
+			margin: 0;
+		}
+
+		.phone-instructions {
+			font-size: 13px;
+			line-height: 16px;
+			@media screen and (min-width: 480px) {
+				display: none;
+			}
+		}
+
+		#autoplay {
+			margin-top: -4px;
+			display: inline-block;
+			opacity: 0.5;
+			cursor: pointer;
+			font-weight: bold;
+			color: #000;
+			font-size: 13px;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+
+
+			&:hover {
+				opacity: 0.75;
+				text-decoration: none;
+			}
+
+			i {
+				display: inline-block;
+				width: 13px; height: 13px;
+				margin: 7.5px auto 0;
+				background-repeat: no-repeat;
+				background-size: 26px 13px;
+				text-indent: -9999px;
+				background-image: url('../images/autoplay.png');
+				vertical-align: -1px;
+			}
+
+			&.playing i {
+				background-position: -13px 0px;	
+			}
+
+			&.paused i {
+				background-position: 0px 0px;
+			}
+		}
 	}
 
 	.day {
@@ -117,7 +218,7 @@ html, body {
 						background-repeat: no-repeat;
 						background-size: 90px 60px;
 						text-indent: -9999px;
-						background-image: url('../images/icons.png');
+						background-image: url('../images/commuters.png');
 					}
 
 					&.all {
@@ -191,6 +292,31 @@ html, body {
 			transition: all @option-bar-transition-duration * 2;
 			background: @neutral-colour;
 		}
+	}
+
+	// menu responsive styling
+	@media screen and (max-height: 400px) {
+		.title {
+			border-bottom: none;
+			padding-bottom: 0;
+			margin-bottom: 0;
+
+			h2 { display: none; }
+			#autoplay { display: block !important; }
+		}
+		.options { display: none; }
+	}
+
+	@media screen and (max-width: 480px) {
+		.title {
+			h2 { display: none; }
+			#autoplay { display: none; }
+		}
+	}
+
+	// same space on bottom, left and right on mobile devices
+	@media screen and (max-width: 768px) {
+		bottom: 15px; left: 0px; right: 0px;
 	}
 }
 
