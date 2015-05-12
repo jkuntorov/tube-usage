@@ -332,7 +332,7 @@
 			"20", "21", "22", "23", "24"
 		];
 
-		var paused = false;
+		var paused = true;
 		var autoplayDuration = 900;
 		var autoplayStartDay;
 		var autoplayStartTime;
@@ -343,13 +343,10 @@
 
 			if (paused) return true;
 
-			console.log("check for changes: " + changes);
 			return changes;
 		}
 
 		function updateInputControls() {
-			console.log("update input controls");
-			
 			d3.select('input[name="day"]:checked').property("checked", false);
 			d3.selectAll('input[name="day"]').each(function(d){ 
 				if(d3.select(this).property("value") == day) 
@@ -362,7 +359,6 @@
 
 		function visualiseNext() {
 			if (inputChanged()) return false;
-			console.log("visualise next enter");
 
 			if (day == "Sun" && time == "24") {
 				day = "Mon";
@@ -370,10 +366,8 @@
 			} else if (time == "24") {
 				day = allDays[(allDays.indexOf(day) + 1)];
 				time = "00";
-				console.log("change day " + day + " and time " + time);
 			} else {
 				time = allTimes[(allTimes.indexOf(time) + 1)];
-				console.log("change time " + time);
 			}
 
 			updateInputControls();
