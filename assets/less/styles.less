@@ -388,6 +388,10 @@ svg {
 
 .station-circle {
 	.animation-options(infinite, center, pulsate 5s ease-out);
+
+	&:hover {
+		filter: invert(100%);
+	}
 }
 
 .station-circle:nth-child(2n - 1) {

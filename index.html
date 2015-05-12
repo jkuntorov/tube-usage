@@ -85,10 +85,11 @@
 	<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 	<script type="text/javascript">
 
+		var heatmapYellow = "#ffce00";
+		var heatmapRed = '#ba0000';
 		var mainColor = "#ff0000"; // red, to be shaded
-		var accentColor = "#113B92"; // TfL blue
-		var generalOpacity = 0.7;
-		var accentOpacity = 1;
+		var hoverColor = "#000";
+		var circleOpacity = 0.7;
 
 		// Converts from degrees to radians.
 		Math.radians = function(degrees) {
@@ -166,7 +167,7 @@
 			colorScale = d3.scale.linear()
 						.domain([0, d3.max(data, function (d) { return 90; })])
 						// .range(["#ff0000", "#000000"]);
-						.range(["#ffce00", "#ba0000"]);
+						.range([heatmapYellow, heatmapRed]);
 
 			var tip = d3.tip()
 				.attr('class', 'd3-tip')
@@ -184,14 +185,13 @@
 									cx: function(d) {return ((convertSphericalToCartesian(d.coordinates.lat, d.coordinates.lon)).x) * 20;},
 									cy: function(d) {return ((convertSphericalToCartesian(d.coordinates.lat, d.coordinates.lon)).y) * 20;},
 									r: 3,
-									opacity: generalOpacity,
+									opacity: circleOpacity,
 									class: "station-circle",
 									name: function(d) {return d.name;},
 								})
 								.on('mouseover', function(d) {
 									d3.select(this).attr({
-										fill: accentColor,
-										opacity: accentOpacity
+										fill: hoverColor
 									});
 									tip.show(d);
 								})
@@ -200,8 +200,7 @@
 									d3.select(this).attr({
 										fill: function() {
 											return d3.select(this).attr("data-fill");
-										},
-										opacity: generalOpacity
+										}
 									});
 								});
 			circles.call(tip);

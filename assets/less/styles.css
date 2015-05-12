@@ -319,6 +319,9 @@ svg {
   transform-origin: center;
   animation: pulsate 5s ease-out;
 }
+.station-circle:hover {
+  filter: invert(100%);
+}
 .station-circle:nth-child(2n - 1) {
   -webkit-animation-duration: 3s;
   -webkit-animation-iteration-count: infinite;
