@@ -29,7 +29,30 @@
 	<div id="options">
 		<div class="container">
 			<div class="row">
-				<div class="day col-sm-6">
+				<div class="option direction col-sm-3">
+					<h4>Commuters</h4>
+					<div class="options-bar">
+						<label class="radio-inline">
+							<input type="radio" name="direction" id="direction-all" value="all" checked><span class="all" title="All commuters"><div>All commuters</div></span>
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="direction" id="direction-in" value="in"><span class="in" title="Commuters going in"><div>Commuters going in</div></span>
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="direction" id="direction-out" value="out"><span class="out" title="Commuters going out"><div>Commuters going out</div></span>
+						</label>
+					</div>
+				</div>
+
+				<div class="option time col-sm-3">
+					<h4>Time</h4>
+					<div class="range-container">
+						<label id="current-time">12:00</label>
+						<input type="range" name="time" min="0" max="24" step="1" value="12">
+					</div>
+				</div>
+
+				<div class="option day col-sm-6">
 					<h4>Day of the week:</h4>
 					<div class="options-bar">
 						<label class="radio-inline">
@@ -52,29 +75,6 @@
 						</label>
 						<label class="radio-inline">
 							<input type="radio" name="day" id="day-sunday" value="Sun"><span title="Sunday">Sun</span>
-						</label>
-					</div>
-				</div>
-
-				<div class="time col-sm-3">
-					<h4>Time</h4>
-					<div class="range-container">
-						<label id="current-time">12:00</label>
-						<input type="range" name="time" min="0" max="24" step="1" value="12">
-					</div>
-				</div>
-
-				<div class="direction col-sm-3">
-					<h4>Direction:</h4>
-					<div class="options-bar">
-						<label class="radio-inline">
-							<input type="radio" name="direction" id="direction-all" value="all" checked><span class="all" title="All usage"><div>All usage</div></span>
-						</label>
-						<label class="radio-inline">
-							<input type="radio" name="direction" id="direction-in" value="in"><span class="in" title="Going in"><div>Going in</div></span>
-						</label>
-						<label class="radio-inline">
-							<input type="radio" name="direction" id="direction-out" value="out"><span class="out" title="Going out"><div>Going out</div></span>
 						</label>
 					</div>
 				</div>
@@ -129,6 +129,9 @@
 
 		var data;
 		var circles;
+		var day;
+		var time;
+		var direction;
 
 		d3.json("data.json", function(error, json) {
 			if (error) return console.warn(error);
@@ -173,6 +176,7 @@
 				.offset([-10, 0])
 				.html(function(d) {
 					return d.name;
+					// return d.name + "<br/>" + numberOfPeople(d, day, time, direction);
 				});
 
 			circles = canvas.selectAll("circle")
@@ -240,7 +244,7 @@
 			})
 		}
 
-		function getCircleSize(circleData, day, time, direction) {
+		function numberOfPeople(circleData, day, time, direction) {
 			if (circleData[day] == undefined) {
 				return 0;
 			} else if (circleData[day][time] == undefined) {
@@ -251,31 +255,31 @@
 		}
 
 		function redraw() {
-			var day = d3.select('input[name="day"]:checked').node().value;
-			var time = d3.select('input[type="range"]').node().value.toString();
-			var direction = d3.select('input[name="direction"]:checked').node().value;
+			day = d3.select('input[name="day"]:checked').node().value;
+			time = d3.select('input[type="range"]').node().value.toString();
+			direction = d3.select('input[name="direction"]:checked').node().value;
 
 			// fix bug in which data for single digit hours is not displayed
 			if (time.length == 1) {time = "0" + time;}
 
 			if (circles !== undefined) {
-				// circles.transition().duration(900).ease('elastic', 1, 0.75).attr({
-				circles.transition().duration(900).ease('quad').attr({
+				circles.transition().duration(900).ease('elastic', 1, 0.75).attr({
+				// circles.transition().duration(900).ease('quad').attr({
 					fill: function(d) {
-						return shadeColor(mainColor, (-1 * getCircleSize(d.data, day, time, direction)));
+						return shadeColor(mainColor, (-1 * numberOfPeople(d.data, day, time, direction)));
 					},
 					"data-fill": function(d) {
-						return shadeColor(mainColor, (-1 * getCircleSize(d.data, day, time, direction)));
+						return shadeColor(mainColor, (-1 * numberOfPeople(d.data, day, time, direction)));
 					},
 					r: function(d) {
-						var size = getCircleSize(d.data, day, time, direction);
-
+						var size = numberOfPeople(d.data, day, time, direction);
+						// return size;
 						if (size <= 0) {
 							return 0;
 						} else if (size > 0 && size < 2) {
 							return size + 2;
-						} else if (size > 50) {
-							return size*0.1 + 50;
+						} else if (size > 20) {
+							return size*0.1 + 20;
 						} else {
 							return size;
 						}
