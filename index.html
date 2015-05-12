@@ -21,7 +21,7 @@
 						<h1><i class="roundel"></i> London Underground Usage</h1>
 						<h2>How many people use the Tube <span class="hidden-md">stations</span> around the clock?</h2>
 						<p class="phone-instructions">Rotate phone to switch between the infographic and the visualisation options.</p>
-						<!-- <a id="autoplay" class="playing"><i></i> Pause</a> -->
+						<a id="autoplay" class="paused"><i></i> <span>Start</span> autoplay</a>
 					</div>
 				</div>
 				<div class="options col-md-9">
@@ -273,16 +273,16 @@
 						return colorScale(numberOfPeople(d.data, day, time, direction));
 					},
 					r: function(d) {
-						var size = numberOfPeople(d.data, day, time, direction);
-						// return size;
+						var size = numberOfPeople(d.data, day, time, direction) * 0.9;
+						
 						if (size <= 0) {
 							return 0;
 						} else if (size > 0 && size < 2) {
 							return size + 2;
 						} else if (size > 50) {
-							return size*0.1 + 50;
+							return size * 0.1 + 50;
 						} else {
-							return size * 0.9;
+							return size;
 						}
 					}
 				}).style({
@@ -291,6 +291,10 @@
 					}
 				});
 			}
+		}
+
+		function autoplay() {
+
 		}
 
 	</script>
