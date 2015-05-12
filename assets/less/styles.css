@@ -232,6 +232,7 @@ body {
   background: #dddddd;
   border: 1px solid #c4c4c4;
   margin-top: -8px;
+  cursor: pointer;
 }
 #menu .range-container input[type=range]:focus {
   outline: none;
