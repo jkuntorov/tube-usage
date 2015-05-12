@@ -42,7 +42,6 @@ body {
   background-position: center;
 }
 #menu {
-  background: white;
   position: absolute;
   bottom: 20px;
   left: 20px;
@@ -88,8 +87,7 @@ body {
 }
 #menu .options-bar input[type=radio]:checked + span {
   transition: all 0.15s;
-  background-color: #ee0000;
-  color: white;
+  background-color: #dddddd;
 }
 #menu h2 {
   font-size: 13px;
@@ -207,15 +205,6 @@ body {
 #menu .direction .options-bar label span.out div {
   background-position: -60px 0px;
 }
-#menu .direction .options-bar label input[type=radio]:checked + span.all div {
-  background-position: 0px -30px;
-}
-#menu .direction .options-bar label input[type=radio]:checked + span.in div {
-  background-position: -30px -30px;
-}
-#menu .direction .options-bar label input[type=radio]:checked + span.out div {
-  background-position: -60px -30px;
-}
 #menu .range-container {
   position: relative;
 }
@@ -240,8 +229,8 @@ body {
   height: 20px;
   width: 20px;
   border-radius: 50%;
-  background: #ee0000;
-  border: 1px solid #cc0000;
+  background: #dddddd;
+  border: 1px solid #c4c4c4;
   margin-top: -8px;
 }
 #menu .range-container input[type=range]:focus {

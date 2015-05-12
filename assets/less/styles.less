@@ -1,6 +1,8 @@
-@accent-colour: #e00;
-@accent-colour-dark: #c00;
+@accent-colour: #ddd;
+@accent-colour-dark: darken(@accent-colour, 10%);
 @neutral-colour: #eee;
+@min-font-size: 13px;
+@min-line-height: 16px;
 @sans-serif-font: 'Chivo', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
 @settings-container-border: 1px solid #ccc;
 @option-bar-transition-duration: 0.15s;
@@ -45,7 +47,6 @@ html, body {
 }
 
 #menu {
-	background: white;
 	position: absolute;
 	bottom: 20px; left: 20px; right: 20px;
 
@@ -96,13 +97,13 @@ html, body {
 		input[type=radio]:checked + span {
 			transition: all @option-bar-transition-duration;
 			background-color: @accent-colour;
-			color: white;
+			// color: white;
 		}
 	}
 
 	h2 {
-		font-size: 13px;
-		line-height: 16px;
+		font-size: @min-font-size;
+		line-height: @min-line-height;
 		text-transform: uppercase;
 		letter-spacing: 0.5px;
 		margin: 0 0 5px 0;
@@ -124,18 +125,18 @@ html, body {
 		}
 
 		h1 {
-			font-size: 13px;
+			font-size: @min-font-size;
 			text-transform: uppercase;
 			font-weight: bold;
 			letter-spacing: 0.5px;
 			margin: 1px 0 5px 0;
 
 			i {
-				width: 13px;
-				height: 13px;
+				width: @min-font-size;
+				height: @min-font-size;
 				background: url("../images/roundel.svg") no-repeat center;
 				display: inline-block;
-				background-size: 13px 13px;
+				background-size: @min-font-size @min-font-size;
 				vertical-align: -2px;
 
 				@media screen and (min-width: 992px) and (max-width: 1200px) {
@@ -150,8 +151,8 @@ html, body {
 		}
 
 		.phone-instructions {
-			font-size: 13px;
-			line-height: 16px;
+			font-size: @min-font-size;
+			line-height: @min-line-height;
 			@media screen and (min-width: 480px) {
 				display: none;
 			}
@@ -164,7 +165,7 @@ html, body {
 			cursor: pointer;
 			font-weight: bold;
 			color: #000;
-			font-size: 13px;
+			font-size: @min-font-size;
 			text-transform: uppercase;
 			letter-spacing: 0.5px;
 
@@ -176,17 +177,17 @@ html, body {
 
 			i {
 				display: inline-block;
-				width: 13px; height: 13px;
+				width: @min-font-size; height: @min-font-size;
 				margin: 7.5px auto 0;
 				background-repeat: no-repeat;
-				background-size: 26px 13px;
+				background-size: 26px @min-font-size;
 				text-indent: -9999px;
 				background-image: url('../images/autoplay.png');
 				vertical-align: -1px;
 			}
 
 			&.playing i {
-				background-position: -13px 0px;	
+				background-position: -@min-font-size 0px;	
 			}
 
 			&.paused i {
@@ -235,17 +236,17 @@ html, body {
 				}
 
 				input[type=radio]:checked + span {
-					&.all {
-						div {background-position: 0px -30px;}
-					}
+					// &.all {
+					// 	div {background-position: 0px -30px;}
+					// }
 
-					&.in {
-						div {background-position: -30px -30px;}
-					}
+					// &.in {
+					// 	div {background-position: -30px -30px;}
+					// }
 
-					&.out {
-						div {background-position: -60px -30px;}
-					}
+					// &.out {
+					// 	div {background-position: -60px -30px;}
+					// }
 				}
 			}
 
@@ -327,7 +328,7 @@ svg {
 
 .d3-tip {
 	line-height: 1;
-	font-size: 13px;
+	font-size: @min-font-size;
 	font-weight: normal;
 	padding: 12px;
 	background: rgba(0, 0, 0, 0.8);

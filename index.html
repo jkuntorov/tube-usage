@@ -13,19 +13,6 @@
 </head>
 <body>
 	<div id="container" class="loading"></div>
-
-	<svg>
-		<defs>
-			<path id="thames" fill="none" stroke="#00C7FF" stroke-width="2" d="M662.545,96.645c-14.088,10.721-24.844,13.034-31.799,14.839
-	c-12.338,0.208-30.543-13.666-52.291-36.038c-11.199-19.552-27.436-38.786-38.863-34.625c-14.174,9.183-34.131-5.035-52.291-26.146
-	c-25.68-18.503-43.033-14.112-61.477-12.719c-14.84,5.386-29.679,10.083-44.519,9.893c-22.104,5.911-31.834,19.246-45.224,30.385
-	c-16.843,6.591-37.587,2.778-60.063-5.653c-18.171-14.365-28.214-13.633-33.211-3.533c-4.763,9.099-2.954,17.998,0,29.678
-	c-0.344,17.811-29.794,21.25-36.745-0.707c-1.732-14.319,4.869-31.139-14.133-40.278c-11.417-3.631-19.879,1.603-27.559,9.187
-	c-13.981,10.232-38.526-3.301-59.356-8.479c-24.982-5.488-30.545,3.589-33.212,14.839c3.617,31.605-17.25,33.261-29.678,41.691
-	c-9.961,5.252-30.716-2.181-42.397,8.479"/>
-		</defs>
-	</svg>
-
 	<div id="menu">
 		<div class="container">
 			<div class="row">
@@ -40,16 +27,16 @@
 				<div class="options col-md-9">
 					<div class="row">
 						<div class="option direction col-sm-3">
-							<h2>Commuters</h2>
+							<h2>Commuters Flow</h2>
 							<div class="options-bar">
 								<label class="radio-inline">
 									<input type="radio" name="direction" id="direction-all" value="all" checked><span class="all" title="All commuters"><div>All commuters</div></span>
 								</label>
 								<label class="radio-inline">
-									<input type="radio" name="direction" id="direction-in" value="in"><span class="in" title="Commuters going in"><div>Commuters going in</div></span>
+									<input type="radio" name="direction" id="direction-in" value="in"><span class="in" title="Commuters entering the Tube"><div>Commuters entering the Tube</div></span>
 								</label>
 								<label class="radio-inline">
-									<input type="radio" name="direction" id="direction-out" value="out"><span class="out" title="Commuters going out"><div>Commuters going out</div></span>
+									<input type="radio" name="direction" id="direction-out" value="out"><span class="out" title="Commuters exiting the Tube"><div>Commuters exiting the Tube</div></span>
 								</label>
 							</div>
 						</div>
@@ -63,7 +50,7 @@
 						</div>
 
 						<div class="option day col-sm-5">
-							<h2>Day of the week:</h2>
+							<h2>Day of the week</h2>
 							<div class="options-bar">
 								<label class="radio-inline">
 									<input type="radio" name="day" id="day-monday" value="Mon" checked><span title="Monday">Mon</span>
@@ -139,6 +126,7 @@
 			return newColorStr;
 		}
 
+		var colorScale;
 		var data;
 		var circles;
 		var day;
@@ -175,13 +163,10 @@
 			});
 			*/
 
-			/*
-			// add river thames
-			canvas.append("use").attr({
-				"xlink:href": "#thames",
-				"transform": "scale(1) translate(660,350)",
-			});
-			*/
+			colorScale = d3.scale.linear()
+						.domain([0, d3.max(data, function (d) { return 90; })])
+						// .range(["#ff0000", "#000000"]);
+						.range(["#ffce00", "#ba0000"]);
 
 			var tip = d3.tip()
 				.attr('class', 'd3-tip')
@@ -283,10 +268,10 @@
 				circles.transition().duration(900).ease('elastic', 1, 0.75).attr({
 				// circles.transition().duration(900).ease('quad').attr({
 					fill: function(d) {
-						return shadeColor(mainColor, (-2 * numberOfPeople(d.data, day, time, direction)));
+						return colorScale(numberOfPeople(d.data, day, time, direction));
 					},
 					"data-fill": function(d) {
-						return shadeColor(mainColor, (-2 * numberOfPeople(d.data, day, time, direction)));
+						return colorScale(numberOfPeople(d.data, day, time, direction));
 					},
 					r: function(d) {
 						var size = numberOfPeople(d.data, day, time, direction);
