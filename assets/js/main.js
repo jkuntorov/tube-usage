@@ -1,89 +1,39 @@
+// Visualisation appearance variables
 var heatmapYellow = "#ffce00";
 var heatmapRed = '#ba0000';
-var mainColor = "#ff0000"; // red, to be shaded
 var hoverColor = "#000";
 var circleOpacity = 0.7;
 
-// Converts from degrees to radians.
-Math.radians = function(degrees) {
-	return degrees * Math.PI / 180;
-};
- 
-// Converts from radians to degrees.
-Math.degrees = function(radians) {
-	return radians * 180 / Math.PI;
-};
+// Global variables
+var container, data, circles, colorScale, tip, day, time, direction;
 
-var earthRadius = 6367; //radius in km
-function convertSphericalToCartesian(latitude, longitude) {
-	var lat = Math.radians(latitude);
-	var lon = Math.radians(longitude);
-	var x = earthRadius * Math.cos(lat) * Math.cos(lon);
-	var y = earthRadius * Math.cos(lat) * Math.sin(lon);
-	return {x: y + 45, y: x - 3944};
-}
-
-function shadeColor(color, shade) {
-	var colorInt = parseInt(color.substring(1),16);
-
-	var R = (colorInt & 0xFF0000) >> 16;
-	var G = (colorInt & 0x00FF00) >> 8;
-	var B = (colorInt & 0x0000FF) >> 0;
-
-	R = R + Math.floor((shade/255)*R);
-	G = G + Math.floor((shade/255)*G);
-	B = B + Math.floor((shade/255)*B);
-
-	var newColorInt = (R<<16) + (G<<8) + (B);
-	var newColorStr = "#"+newColorInt.toString(16);
-
-	return newColorStr;
-}
-
-var container;
-var data;
-var circles;
-var colorScale;
-var tip;
-var day;
-var time;
-var direction;
-
+// Load JSON data and initialise the visualisation
 d3.json("assets/js/data.json", function(error, json) {
 	if (error) return console.warn(error);
 	data = json;
 	init();
 });
 
+// Initialisation process
 function init() {
+
+	// Select the container and create the canvas
 	container = d3.select("#container");
-
-	container.transition().duration(900).attr({
-		class: "animated-circles"
-	});
-
 	var canvas = container.append("svg");
 
+	// Make the SVG responsive for different screen sizes
 	canvas.attr({
 		"preserveAspectRatio": "xMidYMid",
 		"viewBox": "0 0 1300 630",
 	});
 
-	/*
-	// background rectangle used
-	// to tweak svg viewport size
-	canvas.append("rect").attr({
-		width: "100%",
-		height: "100%",
-		fill: "#dadada"
-	});
-	*/
-
+	// Create a colour scale for the heatmap, from yellow to red
 	colorScale = d3.scale.linear()
 				.domain([0, d3.max(data, function (d) { return 90; })])
 				// .range(["#ff0000", "#000000"]);
 				.range([heatmapYellow, heatmapRed]);
 
+	// Create the tooltips containing the name of the hovered station
 	tip = d3.tip()
 		.attr('class', 'tooltip')
 		.offset([-10, 0])
@@ -109,6 +59,7 @@ function init() {
 			return tooltipHTML;
 		});
 
+	// Draw the basis for all of the circles
 	circles = canvas.selectAll("circle")
 					.data(data)
 					.enter()
@@ -135,91 +86,67 @@ function init() {
 								}
 							});
 						});
+	
+	// Add the tooltips to the circles
 	circles.call(tip);
 
+	// Finish drawing the circles
 	redraw();
+
+	// Update positioning of the label on the time control
 	updateTimeLabel();
 }
 
-d3.selectAll('input[name="day"]').on("change", function() {
-	redraw();
-	pauseAutoplay();
-});
-
-d3.select('input[name="time"]').on("change", function() {
-	pauseAutoplay();
-	updateTimeLabel();
-	redraw();
-});
-
-d3.select('input[name="time"]').on("input", function() {
-	pauseAutoplay();
-	updateTimeLabel();
-	redraw();
-});
-
-d3.selectAll('input[name="direction"]').on("change", function() {
-	// shoud i pause autoplay if direction is changed?
-	// pauseAutoplay();
-	redraw();
-});
-
-function updateTimeLabel() {
-	var time = d3.select('input[type="range"]').node().value.toString();
-	d3.select('#current-time').text(time + ":00").style({
-		"margin-left": function() {
-			var margin = time * 3.5;
-
-			if (margin > 83) margin = 83;
-
-			return margin + '%';
-		}
-	})
-}
-
-function numberOfPeople(circleData, day, time, direction) {
-	if (circleData[day] == undefined) {
-		return 0;
-	} else if (circleData[day][time] == undefined) {
-		return 0;
-	} else {
-		return circleData[day][time][direction];
-	}
-}
-
+// Redraw function is called every time the dataset changes
 function redraw(checkInput) {
-	// default behavious: check for changes in user input
+	// Default behaviour: check for changes in user input
 	checkInput = typeof checkInput !== 'undefined' ? checkInput : true;
 
+	// Update control values
 	if (checkInput) {
 		day = d3.select('input[name="day"]:checked').node().value;
 		time = d3.select('input[type="range"]').node().value.toString();
 		direction = d3.select('input[name="direction"]:checked').node().value;
 
-		// fix bug in which data for single digit hours is not displayed
+		// Fixing a bug in which data for single digit hours is not displayed
 		if (time.length == 1) {time = "0" + time;}
 	}
 
-	circles.sort(function (a, b) {	// select the parent and sort the path's
-		if (numberOfPeople(a.data, day, time, direction) > numberOfPeople(b.data, day, time, direction)) return -1;				// a is not the hovered element, send "a" to the back
-		else return 1;								// a is the hovered element, bring "a" to the front
+	// Sort the circles on the canvas (because z-index doesn't work with SVG)
+	// Bring the smallest stations to the top and send the biggest to the back
+	circles.sort(function (a, b) {
+		// a is not the hovered element, send "a" to the back
+		if (numberOfPeople(a.data, day, time, direction) > numberOfPeople(b.data, day, time, direction)) return -1;
+		
+		// a is the hovered element, bring "a" to the front
+		else return 1;
 	});
 
+	// Update the tooltips
 	circles.call(tip)
 
+	// Update the properties, attributes and style of the circles and redraw.
 	if (circles !== undefined) {
+		// Other animations:
 		// circles.transition().duration(900).ease('elastic', 1, 0.75).attr({
-		circles.transition().duration(900).ease('quad').attr({
 		// circles.transition().duration(900).ease('linear').attr({
+
+		circles.transition().duration(900).ease('quad').attr({
 			fill: function(d) {
+				// The more people using the station, the darker the circle
 				return colorScale(numberOfPeople(d.data, day, time, direction));
 			},
 			"data-fill": function(d) {
+				// Include the additional fill property so that the circle colour
+				// can be restored after the user has hovered on the circle
 				return colorScale(numberOfPeople(d.data, day, time, direction));
 			},
 			r: function(d) {
+				// The more people using the station, the bigger the circle's radius
 				var size = numberOfPeople(d.data, day, time, direction) * 0.9;
 				
+				// Apply size limitations for circles
+				// that are too small or too big
 				if (size <= 0) {
 					return 0;
 				} else if (size > 0 && size < 2) {
@@ -230,104 +157,6 @@ function redraw(checkInput) {
 					return size;
 				}
 			}
-		}).style({
-			"z-index": function(d) {
-				return -(numberOfPeople(d.data, day, time, direction));
-			}
 		});
-	}
-}
-
-var allDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-var allTimes = [
-	"00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
-	"10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
-	"20", "21", "22", "23", "24"
-];
-
-var paused = true;
-var autoplayDuration = 900;
-var autoplayStartDay;
-var autoplayStartTime;
-var autoplayStartDirection;
-
-function inputChanged() {
-	var changes = false;
-
-	if (paused) return true;
-
-	return changes;
-}
-
-function updateInputControls() {
-	d3.select('input[name="day"]:checked').property("checked", false);
-	d3.selectAll('input[name="day"]').each(function(d){ 
-		if(d3.select(this).property("value") == day) 
-		d3.select(this).node().checked = true;
-	});
-	
-	d3.select('input[type="range"]').node().value = time;
-	updateTimeLabel();
-}
-
-function visualiseNext() {
-	if (inputChanged()) return false;
-
-	if (day == "Sun" && time == "24") {
-		day = "Mon";
-		time = "00";
-	} else if (time == "24") {
-		day = allDays[(allDays.indexOf(day) + 1)];
-		time = "00";
-	} else {
-		time = allTimes[(allTimes.indexOf(time) + 1)];
-	}
-
-	updateInputControls();
-	redraw(false);
-	return true;
-}
-
-function autoplay() {
-	setTimeout(function () {
-		if (visualiseNext() == true) {
-			autoplay();
-		} else {
-			return false;
-		}
-	}, autoplayDuration);
-}
-
-d3.select("#autoplay").on("click", function() {
-	autoplayStartDay = day;
-	autoplayStartTime = time;
-	autoplayStartDirection = direction;
-
-	if (paused == true) {
-		paused = false;
-		updatePlayButton();
-		container.attr({class: ""});
-		autoplay();
-	} else {
-		paused = true;
-		updatePlayButton();
-		container.attr({class: "animated-circles"});
-	}
-});
-
-function updatePlayButton() {
-	if (paused == true) {
-		d3.select("#autoplay").attr("class","paused");
-		d3.select("#autoplay span").text("Start");
-	} else {
-		d3.select("#autoplay").attr("class", "playing");
-		d3.select("#autoplay span").text("Pause");
-	}
-}
-
-function pauseAutoplay() {
-	if (paused == false) {
-		paused = true;
-		updatePlayButton();
 	}
 }
