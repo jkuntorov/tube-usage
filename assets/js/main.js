@@ -61,31 +61,31 @@ function init() {
 
 	// Draw the basis for all of the circles
 	circles = canvas.selectAll("circle")
-					.data(data)
-					.enter()
-						.append("circle")
-						.attr({
-							cx: function(d) {return ((convertSphericalToCartesian(d.coordinates.lat, d.coordinates.lon)).x) * 20;},
-							cy: function(d) {return ((convertSphericalToCartesian(d.coordinates.lat, d.coordinates.lon)).y) * 20;},
-							r: 3,
-							opacity: circleOpacity,
-							class: "station-circle",
-							name: function(d) {return d.name;},
-						})
-						.on('mouseover', function(d) {
-							d3.select(this).attr({
-								fill: hoverColor
-							});
-							tip.show(d);
-						})
-						.on('mouseout', function(d) {
-							tip.hide(d);
-							d3.select(this).attr({
-								fill: function() {
-									return d3.select(this).attr("data-fill");
-								}
-							});
-						});
+		.data(data)
+		.enter()
+		.append("circle")
+		.attr({
+			cx: function(d) {return ((convertSphericalToCartesian(d.coordinates.lat, d.coordinates.lon)).x) * 20;},
+			cy: function(d) {return ((convertSphericalToCartesian(d.coordinates.lat, d.coordinates.lon)).y) * 20;},
+			r: 3,
+			opacity: circleOpacity,
+			class: "station-circle",
+			name: function(d) {return d.name;},
+		})
+		.on('mouseover', function(d) {
+			d3.select(this).attr({
+				fill: hoverColor
+			});
+			tip.show(d);
+		})
+		.on('mouseout', function(d) {
+			tip.hide(d);
+			d3.select(this).attr({
+				fill: function() {
+					return d3.select(this).attr("data-fill");
+				}
+			});
+		});
 	
 	// Add the tooltips to the circles
 	circles.call(tip);
